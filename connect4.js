@@ -5,21 +5,33 @@
  * board fills (tie)
  */
 
+class Game {
+  constructor (width = 7, height = 8, ) {
+    this.width = width,
+    this.height = height,
+    this.board = [],
+    this.currPlayer = 1
+  }
+
+  /** makeBoard: create in-JS board structure:
+  *   board = array of rows, each row is array of cells  (board[y][x])
+  */
+  makeBoard() {
+    for (let y = 0; y < this.height; y++) {
+      board.push(Array.from({ length: this.width }));
+    }
+  }
+
+
+}
+
 const WIDTH = 7;
 const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[y][x])
 
-/** makeBoard: create in-JS board structure:
- *   board = array of rows, each row is array of cells  (board[y][x])
- */
 
-function makeBoard() {
-  for (let y = 0; y < HEIGHT; y++) {
-    board.push(Array.from({ length: WIDTH }));
-  }
-}
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
