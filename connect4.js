@@ -95,43 +95,43 @@ class Game {
     }
 
     // place piece in board and add to HTML table
-    board[y][x] = currPlayer;
+    this.board[y][x] = this.currPlayer;
     placeInTable(y, x);
     
     // check for win
     if (checkForWin()) {
-      return endGame(`Player ${currPlayer} won!`);
+      return endGame(`Player ${this.currPlayer} won!`);
     }
     
     // check for tie
-    if (board.every(row => row.every(cell => cell))) {
+    if (this.board.every(row => row.every(cell => cell))) {
       return endGame('Tie!');
     }
       
     // switch players
-    currPlayer = currPlayer === 1 ? 2 : 1;
+    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
   }
 
-  /** checkForWin: check board cell-by-cell for "does a win start here?" */
+  /** checkForWin: check this.board cell-by-cell for "does a win start here?" */
 
   checkForWin() {
     function _win(cells) {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
-      //  - returns true if all are legal coordinates & all match currPlayer
+      //  - returns true if all are legal coordinates & all match this.currPlayer
 
       return cells.every(
         ([y, x]) =>
           y >= 0 &&
-          y < HEIGHT &&
+          y < this.height &&
           x >= 0 &&
-          x < WIDTH &&
-          board[y][x] === currPlayer
+          x < this.width &&
+          this.board[y][x] === this.currPlayer
       );
     }
 
-    for (let y = 0; y < HEIGHT; y++) {
-      for (let x = 0; x < WIDTH; x++) {
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
         // get "check list" of 4 cells (starting here) for each of the different
         // ways to win
         const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
