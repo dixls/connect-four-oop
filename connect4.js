@@ -89,19 +89,18 @@ class Game {
   handleClick(evt) {
     // get x from ID of clicked cell
     const x = +evt.target.id;
-    console.log(this);
     // get next spot in column (if none, ignore click)
     const y = this.findSpotForCol(x);
     if (y === null) {
       return;
     }
-
+    const winCheck = this.checkForWin.bind(this);
     // place piece in board and add to HTML table
     this.board[y][x] = this.currPlayer;
     this.placeInTable(y, x);
     
     // check for win
-    if (this.checkForWin().bind(this)) {
+    if (winCheck()) {
       return this.endGame(`Player ${this.currPlayer} won!`);
     }
     
@@ -121,7 +120,6 @@ class Game {
       // Check four cells to see if they're all color of current player
       //  - cells: list of four (y, x) cells
       //  - returns true if all are legal coordinates & all match this.currPlayer
-
       return cells.every(
         ([y, x]) =>
           y >= 0 &&
@@ -131,6 +129,7 @@ class Game {
           this.board[y][x] === this.currPlayer
       );
     }
+    const boundWin = _win.bind(this);
 
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
@@ -142,7 +141,7 @@ class Game {
         const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
 
         // find winner (only checking each win-possibility as needed)
-        if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
+        if (boundWin(horiz) || boundWin(vert) || boundWin(diagDR) || boundWin(diagDL)) {
           return true;
         }
       }
