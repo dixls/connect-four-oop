@@ -4,20 +4,24 @@
  * column until a player gets four-in-a-row (horiz, vert, or diag) or until
  * board fills (tie)
  */
-const playerOneColor = document.getElementById("player-1-color");
-const playerTwoColor = document.getElementById("player-2-color");
+const playerOneColor = document.getElementById("player-1-color").value;
+const playerTwoColor = document.getElementById("player-2-color").value;
+
+class Player {
+  constructor (color, className) {
+    this.color = color,
+    this.className = className
+  }
+}
+
 class Game {
-  constructor (width = 7, height = 8, playerOneColor = "blue", playerTwoColor = "red") {
+  constructor (width = 7, height = 8, p1Color = "blue", p2Color = "red") {
     this.width = width,
     this.height = height,
     this.board = [],
-    this.playerOne = {
-      color = playerOneColor
-    }
-    this.playerTwo = {
-      color = playerTwoColor
-    }
-    this.currPlayer = 1,
+    this.playerOne = new Player(playerOneColor, "p1"),
+    this.playerTwo = new Player(playerTwoColor, "p2"),
+    this.currPlayer = this.playerOne,
     this.gameOver = false,
     this.makeBoard();
     this.makeHtmlBoard();
@@ -168,5 +172,5 @@ newGameButton.addEventListener("click", function(){
   while(htmlBoard.firstChild){
     htmlBoard.removeChild(htmlBoard.firstChild);
   }
-  new Game(6,7)
+  new Game(6,7,)
 })
