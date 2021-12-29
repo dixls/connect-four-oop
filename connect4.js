@@ -11,6 +11,7 @@ class Game {
     this.height = height,
     this.board = [],
     this.currPlayer = 1,
+    this.gameOver = false,
     this.makeBoard();
     this.makeHtmlBoard();
   }
@@ -87,30 +88,33 @@ class Game {
   /** handleClick: handle click of column top to play piece */
 
   handleClick(evt) {
-    // get x from ID of clicked cell
-    const x = +evt.target.id;
-    // get next spot in column (if none, ignore click)
-    const y = this.findSpotForCol(x);
-    if (y === null) {
-      return;
-    }
-    const winCheck = this.checkForWin.bind(this);
-    // place piece in board and add to HTML table
-    this.board[y][x] = this.currPlayer;
-    this.placeInTable(y, x);
-    
-    // check for win
-    if (winCheck()) {
-      return this.endGame(`Player ${this.currPlayer} won!`);
-    }
-    
-    // check for tie
-    if (this.board.every(row => row.every(cell => cell))) {
-      return this.endGame('Tie!');
-    }
+    if(!this.gameOver){
+      // get x from ID of clicked cell
+      const x = +evt.target.id;
+      // get next spot in column (if none, ignore click)
+      const y = this.findSpotForCol(x);
+      if (y === null) {
+        return;
+      }
+      const winCheck = this.checkForWin.bind(this);
+      // place piece in board and add to HTML table
+      this.board[y][x] = this.currPlayer;
+      this.placeInTable(y, x);
       
-    // switch players
-    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+      // check for win
+      if (winCheck()) {
+        return this.endGame(`Player ${this.currPlayer} won!`);
+      }
+      
+      // check for tie
+      if (this.board.every(row => row.every(cell => cell))) {
+        this.gameOver = true;
+        return this.endGame('Tie!');
+      }
+        
+      // switch players
+      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+    }
   }
 
   /** checkForWin: check this.board cell-by-cell for "does a win start here?" */
@@ -142,6 +146,7 @@ class Game {
 
         // find winner (only checking each win-possibility as needed)
         if (boundWin(horiz) || boundWin(vert) || boundWin(diagDR) || boundWin(diagDL)) {
+          this.gameOver = true;
           return true;
         }
       }
@@ -149,4 +154,12 @@ class Game {
   }
 }
 
-new Game(6,7);
+
+const newGameButton = document.getElementById("start-game");
+const htmlBoard = document.getElementById("board")
+newGameButton.addEventListener("click", function(){
+  while(htmlBoard.firstChild){
+    htmlBoard.removeChild(htmlBoard.firstChild);
+  }
+  new Game(6,7)
+})
