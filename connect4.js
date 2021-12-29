@@ -4,12 +4,19 @@
  * column until a player gets four-in-a-row (horiz, vert, or diag) or until
  * board fills (tie)
  */
-
+const playerOneColor = document.getElementById("player-1-color");
+const playerTwoColor = document.getElementById("player-2-color");
 class Game {
-  constructor (width = 7, height = 8, ) {
+  constructor (width = 7, height = 8, playerOneColor = "blue", playerTwoColor = "red") {
     this.width = width,
     this.height = height,
     this.board = [],
+    this.playerOne = {
+      color = playerOneColor
+    }
+    this.playerTwo = {
+      color = playerTwoColor
+    }
     this.currPlayer = 1,
     this.gameOver = false,
     this.makeBoard();
