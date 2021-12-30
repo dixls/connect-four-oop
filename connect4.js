@@ -10,8 +10,7 @@ const playerTwoColor = document.getElementById("player-2-color");
 class Player {
   constructor (playerName, color, className) {
     this.playerName = playerName,
-    this.color = color,
-    this.className = className
+    this.color = color
   }
 }
 
@@ -20,8 +19,8 @@ class Game {
     this.width = width,
     this.height = height,
     this.board = [],
-    this.playerOne = new Player("Player 1", p1Color, "p1"),
-    this.playerTwo = new Player("Player 2", p2Color, "p2"),
+    this.playerOne = new Player("Player 1", p1Color),
+    this.playerTwo = new Player("Player 2", p2Color),
     this.currPlayer = this.playerOne,
     this.gameOver = false,
     this.makeBoard();
@@ -82,7 +81,6 @@ class Game {
   placeInTable(y, x) {
     const piece = document.createElement('div');
     piece.classList.add('piece');
-    piece.classList.add(`${this.currPlayer.className}`);
     piece.style.backgroundColor = this.currPlayer.color;
     piece.style.top = -50 * (y + 2);
 
